@@ -1,0 +1,19 @@
+{
+  "name": "learning-spark",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "gen:mock": "node gen-mock-file.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sarunyou/learning-spark.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sarunyou/learning-spark/issues"
+  },
+  "homepage": "https://github.com/sarunyou/learning-spark#readme"
+}

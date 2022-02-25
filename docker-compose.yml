@@ -13,9 +13,6 @@ services:
       - '7777:7777'
     volumes:
       - ".:/test-files:rw"
-      - type: bind
-        source: ./conf/log4j.properties
-        target: /opt/bitnami/spark/conf/log4j.properties
   spark-worker:
     image: docker.io/bitnami/spark:3
     environment:
