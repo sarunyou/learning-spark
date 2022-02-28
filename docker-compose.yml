@@ -10,7 +10,6 @@ services:
       - SPARK_SSL_ENABLED=no
     ports:
       - '8080:8080'
-      - '7777:7777'
     volumes:
       - ".:/test-files:rw"
   spark-worker:
