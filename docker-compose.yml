@@ -1,8 +1,16 @@
-version: '2'
-services:
+version: '3.9'
+services: 
+  server:
+    build: ./server
+    ports:
+      - "8000:5000"
+    networks:
+      - spark
   spark:
-    image: docker.io/bitnami/spark:3
+    image: saprk
+    build: ./
     environment:
+      - STORAGE_EMULATOR_HOST=http://storage:8080
       - SPARK_MODE=master
       - SPARK_RPC_AUTHENTICATION_ENABLED=no
       - SPARK_RPC_ENCRYPTION_ENABLED=no
@@ -12,9 +20,13 @@ services:
       - '8080:8080'
     volumes:
       - ".:/test-files:rw"
+    networks:
+      - spark
   spark-worker:
-    image: docker.io/bitnami/spark:3
+    image: saprk
+    build: ./
     environment:
+      - STORAGE_EMULATOR_HOST=http://storage:8080
       - SPARK_MODE=worker
       - SPARK_MASTER_URL=spark://spark:7077
       - SPARK_WORKER_MEMORY=1G
@@ -25,3 +37,17 @@ services:
       - SPARK_SSL_ENABLED=no
     volumes:
       - ".:/test-files:rw"
+    networks:
+      - spark  
+  storage:
+    image: fsouza/fake-gcs-server
+    ports:
+      - 8080
+    volumes:
+      - ./data:/data
+    command: ["-scheme", "http", "-port", "8080","-external-url", "http://storage:8080"]
+    networks:
+      - spark
+networks:
+  spark:
+    driver: bridge
