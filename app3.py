@@ -5,6 +5,7 @@ from pyspark.sql.types import IntegerType
 from pyspark.sql.types import StructField
 from pyspark.sql.types import StructType
 from pyspark.sql import functions as F
+bucket_name = "example-spark"
 
 
 def foreach_batch_function(df, epoch_id):
@@ -22,16 +23,11 @@ def foreach_batch_function(df, epoch_id):
 
 
 if __name__ == "__main__":
-    bucket_name = "my-bucket"
     path = f"gs://{bucket_name}/input/"
     checkpoint_path = f"gs://{bucket_name}/checkpoint/"
     schema = StructType().add("id", "string")
     conf = SparkConf().setAll([
-        ("spark.hadoop.fs.gs.storage.root.url", "http://storage:8080"),
-        ("spark.hadoop.fs.gs.project.id", "test-project"),
-        ("spark.hadoop.fs.gs.token.server.url", "http://storage:8080"),
-        ("spark.hadoop.google.cloud.auth.service.account.enable", "false"),
-        ("spark.hadoop.google.cloud.auth.null.enable", "true"),
+        ("fs.gs.auth.service.account.json.keyfile", "/test-files/key.json"),
         ("spark.master", os.environ.get("SPARK_MASTER_URL", "spark://spark:7077"))
     ])
     spark = SparkSession.builder.appName(

@@ -1,11 +1,5 @@
 version: '3.9'
 services: 
-  server:
-    build: ./server
-    ports:
-      - "8000:5000"
-    networks:
-      - spark
   spark:
     image: saprk
     build: ./
@@ -42,7 +36,7 @@ services:
   storage:
     image: fsouza/fake-gcs-server
     ports:
-      - 8080
+      - 8081:8080
     volumes:
       - ./data:/data
     command: ["-scheme", "http", "-port", "8080","-external-url", "http://storage:8080"]
