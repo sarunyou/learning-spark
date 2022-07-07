@@ -33,15 +33,6 @@ services:
       - ".:/test-files:rw"
     networks:
       - spark  
-  storage:
-    image: fsouza/fake-gcs-server
-    ports:
-      - 8081:8080
-    volumes:
-      - ./data:/data
-    command: ["-scheme", "http", "-port", "8080","-external-url", "http://storage:8080"]
-    networks:
-      - spark
 networks:
   spark:
     driver: bridge
