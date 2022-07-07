@@ -9,9 +9,7 @@ if __name__ == "__main__":
 	logFile = "/test-files/mock.csv"  # Should be some file on your system
 	spark = SparkSession.builder.appName("UniqueUsers").config(
 		"spark.master", os.environ.get("SPARK_MASTER_URL", "spark://spark:7077")).getOrCreate()
-	schema = StructType().add("id", "string")
-	csvDf = spark.read.schema(schema).csv(logFile)
-	countDistinct = csvDf.groupBy(csvDf.id).count().select(csvDf.id)
-	countDistinct.show(n=10)
-	print("countDistinct", countDistinct.count())
+	logData = spark.read.text(logFile).cache()
+	countDistinct = logData.distinct().count()
+	print("countDistinct", countDistinct)
 	spark.stop()
